@@ -4,7 +4,7 @@ import { ChevronRight } from 'lucide-react';
 
 const MovieSection = ({ title, movies = [] }) => {
     return (
-        <section className="space-y-6">
+        <section className="space-y-6 reveal-section">
             <div className="flex items-center justify-between">
                 <div className="flex items-center gap-4">
                     <h2 className="text-3xl font-black text-white">{title}</h2>

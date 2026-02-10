@@ -65,7 +65,7 @@ const Footer = () => {
 
                 <div className="border-t border-white/5 pt-10 flex flex-col md:flex-row items-center justify-between gap-6">
                     <p className="text-white/30 text-xs font-medium">
-                        © 2024 MOVIX Entertainment. All rights reserved.
+                        © 2026 Wrdhni Entertainment. All rights reserved.
                     </p>
                     <div className="flex items-center gap-8">
                         <a href="#" className="text-white/30 hover:text-white text-xs transition-colors">Terms of Service</a>

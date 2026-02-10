@@ -1,18 +1,38 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { Play, Info, Star } from 'lucide-react';
 import { motion } from 'framer-motion';
+import { gsap } from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
 const Hero = ({ movie }) => {
+    const heroImgRef = useRef(null);
+
+    useEffect(() => {
+        if (heroImgRef.current) {
+            gsap.to(heroImgRef.current, {
+                yPercent: 30,
+                ease: "none",
+                scrollTrigger: {
+                    trigger: ".hero-container",
+                    start: "top top",
+                    end: "bottom top",
+                    scrub: true
+                }
+            });
+        }
+    }, [movie]);
+
     if (!movie) return <div className="h-[90vh] bg-bg-dark" />;
 
     return (
-        <section className="relative h-[90vh] w-full flex items-center overflow-hidden">
+        <section className="hero-container relative h-[90vh] w-full flex items-center overflow-hidden">
             {/* Background Backdrop */}
             <div className="absolute inset-0 z-0">
                 <img
+                    ref={heroImgRef}
                     src={movie.image || "https://images.unsplash.com/photo-1626814026160-2237a95fc5a0?q=80&w=2070&auto=format&fit=crop"}
                     alt={movie.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-[130%] object-cover absolute top-0 left-0"
                 />
                 <div className="absolute inset-0 bg-gradient-to-r from-bg-dark via-bg-dark/60 to-transparent" />
                 <div className="absolute inset-x-0 bottom-0 h-64 bg-gradient-to-t from-bg-dark to-transparent" />
