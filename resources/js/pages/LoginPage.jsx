@@ -18,10 +18,18 @@ const LoginPage = () => {
 
         // Simulating login for demo purposes
         setTimeout(() => {
+            const userData = {
+                id: userId,
+                name: userId || 'Guest User', // Using ID as name for demo
+                avatar: null
+            };
+            localStorage.setItem('user', JSON.stringify(userData));
+
             setIsLoading(false);
-            navigate('/');
+            navigate('/home');
         }, 1500);
     };
+
 
     return (
         <div className="min-h-screen bg-bg-dark text-white flex items-center justify-center p-6 relative overflow-hidden">

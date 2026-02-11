@@ -6,16 +6,27 @@ import Footer from '../components/Footer';
 import axios from 'axios';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useNavigate } from 'react-router-dom';
 
 gsap.registerPlugin(ScrollTrigger);
 
-const LandingPage = () => {
+const UserHome = () => {
     const [movies, setMovies] = useState([]);
     const [loading, setLoading] = useState(true);
     const [searchQuery, setSearchQuery] = useState('');
+    const [user, setUser] = useState(null);
     const mainRef = useRef(null);
+    const navigate = useNavigate();
 
     useEffect(() => {
+        // Check if user is logged in
+        const storedUser = localStorage.getItem('user');
+        if (!storedUser) {
+            navigate('/login');
+            return;
+        }
+        setUser(JSON.parse(storedUser));
+
         setLoading(true);
         axios.get('/api/movies', {
             params: { search: searchQuery }
@@ -28,7 +39,7 @@ const LandingPage = () => {
                 console.error("Error fetching movies:", error);
                 setLoading(false);
             });
-    }, [searchQuery]);
+    }, [searchQuery, navigate]);
 
     const handleSearch = (query) => {
         setSearchQuery(query);
@@ -36,7 +47,6 @@ const LandingPage = () => {
 
     useEffect(() => {
         if (!loading && movies.length > 0) {
-            // GSAP Animations for sections
             const sections = gsap.utils.toArray('.reveal-section');
             sections.forEach((section) => {
                 gsap.fromTo(section,
@@ -59,9 +69,9 @@ const LandingPage = () => {
 
     return (
         <div className="min-h-screen bg-bg-dark text-white">
-            <Navbar onSearch={handleSearch} />
+            <Navbar onSearch={handleSearch} user={user} />
             <main ref={mainRef}>
-                <Hero movie={movies[0]} />
+                <Hero movie={movies[0]} user={user} />
                 <div className="container mx-auto px-4 py-8 space-y-24">
                     {loading ? (
                         <div className="flex justify-center py-20">
@@ -69,6 +79,7 @@ const LandingPage = () => {
                         </div>
                     ) : (
                         <>
+                            <MovieSection title="Recommended for You" movies={[...movies].sort(() => 0.5 - Math.random())} />
                             <MovieSection title="Trending Now" movies={movies} />
                             <MovieSection title="Top Rated" movies={[...movies].sort((a, b) => b.rating - a.rating)} />
                             <MovieSection title="Recently Added" movies={[...movies].reverse()} />
@@ -81,4 +92,4 @@ const LandingPage = () => {
     );
 };
 
-export default LandingPage;
+export default UserHome;

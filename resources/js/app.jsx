@@ -4,6 +4,7 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
+import UserHome from './pages/UserHome';
 import '../css/app.css';
 
 if (document.getElementById('root')) {
@@ -13,6 +14,7 @@ if (document.getElementById('root')) {
             <BrowserRouter>
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
+                    <Route path="/home" element={<UserHome />} />
                     <Route path="/admin" element={<AdminPage />} />
                     <Route path="/login" element={<LoginPage />} />
                 </Routes>
@@ -20,3 +22,4 @@ if (document.getElementById('root')) {
         </React.StrictMode>
     );
 }
+

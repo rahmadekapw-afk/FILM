@@ -4,7 +4,7 @@ import { motion } from 'framer-motion';
 import { gsap } from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
 
-const Hero = ({ movie }) => {
+const Hero = ({ movie, user }) => {
     const heroImgRef = useRef(null);
 
     useEffect(() => {
@@ -45,9 +45,21 @@ const Hero = ({ movie }) => {
                     transition={{ duration: 0.8 }}
                     className="max-w-2xl space-y-6"
                 >
-                    <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md w-fit px-3 py-1 rounded-full border border-white/20">
-                        <Star className="w-4 h-4 fill-brand-primary text-brand-primary" />
-                        <span className="text-xs font-bold uppercase tracking-wider text-white">Featured Movie</span>
+                    <div className="flex flex-col gap-4">
+                        {user && (
+                            <motion.p
+                                initial={{ opacity: 0, x: -20 }}
+                                animate={{ opacity: 1, x: 0 }}
+                                transition={{ delay: 0.5 }}
+                                className="text-brand-primary font-black uppercase tracking-[0.3em] text-sm"
+                            >
+                                Welcome back, {user.name}
+                            </motion.p>
+                        )}
+                        <div className="flex items-center gap-2 bg-white/10 backdrop-blur-md w-fit px-3 py-1 rounded-full border border-white/20">
+                            <Star className="w-4 h-4 fill-brand-primary text-brand-primary" />
+                            <span className="text-xs font-bold uppercase tracking-wider text-white">Featured Movie</span>
+                        </div>
                     </div>
 
                     <h1 className="text-5xl md:text-7xl font-black text-white leading-tight uppercase">

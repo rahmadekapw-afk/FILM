@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Play, User, Menu, X } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
-const Navbar = ({ onSearch }) => {
+const Navbar = ({ onSearch, user }) => {
     const [isScrolled, setIsScrolled] = useState(false);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
+    const navigate = useNavigate();
 
     useEffect(() => {
         const handleScroll = () => {
@@ -23,11 +24,16 @@ const Navbar = ({ onSearch }) => {
         }
     };
 
+    const handleLogout = () => {
+        localStorage.removeItem('user');
+        navigate('/');
+    };
+
     return (
         <nav className={`fixed w-full z-50 transition-all duration-300 ${isScrolled ? 'bg-bg-dark/95 backdrop-blur-md border-b border-white/10 py-3' : 'bg-transparent py-5'}`}>
             <div className="container mx-auto px-4 md:px-6 flex items-center justify-between">
                 <div className="flex items-center gap-8">
-                    <Link to="/" className="flex items-center gap-2 group">
+                    <Link to={user ? "/home" : "/"} className="flex items-center gap-2 group">
                         <div className="bg-brand-primary p-1 rounded-md group-hover:bg-brand-secondary transition-colors">
                             <Play className="w-6 h-6 fill-white text-white" />
                         </div>
@@ -57,10 +63,25 @@ const Navbar = ({ onSearch }) => {
                         <Search className="w-5 h-5" />
                     </button>
 
-                    <Link to="/login" className="hidden sm:flex items-center gap-2 bg-brand-primary hover:bg-brand-secondary text-white px-4 py-1.5 rounded-full text-sm font-semibold transition-all">
-                        <User className="w-4 h-4" />
-                        <span>Sign In</span>
-                    </Link>
+                    {user ? (
+                        <div className="flex items-center gap-4">
+                            <div className="hidden sm:flex items-center gap-2 bg-white/5 border border-white/10 px-4 py-1.5 rounded-full text-sm font-semibold text-white/80">
+                                <User className="w-4 h-4" />
+                                <span>{user.name}</span>
+                            </div>
+                            <button
+                                onClick={handleLogout}
+                                className="hidden sm:flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-4 py-1.5 rounded-full text-sm font-semibold transition-all border border-white/10"
+                            >
+                                <span>Log Out</span>
+                            </button>
+                        </div>
+                    ) : (
+                        <Link to="/login" className="hidden sm:flex items-center gap-2 bg-brand-primary hover:bg-brand-secondary text-white px-4 py-1.5 rounded-full text-sm font-semibold transition-all">
+                            <User className="w-4 h-4" />
+                            <span>Sign In</span>
+                        </Link>
+                    )}
 
                     <button onClick={() => setIsMenuOpen(!isMenuOpen)} className="p-2 text-white md:hidden">
                         {isMenuOpen ? <X /> : <Menu />}
@@ -74,12 +95,22 @@ const Navbar = ({ onSearch }) => {
                     {['Movies', 'TV Shows', 'New & Popular', 'My List'].map((item) => (
                         <a key={item} href={`#${item}`} className="block text-lg font-medium text-white/70 hover:text-white">{item}</a>
                     ))}
-                    <Link to="/login" className="block text-center w-full bg-brand-primary hover:bg-brand-secondary text-white py-3 rounded-xl font-bold transition-all">
-                        Sign In
-                    </Link>
+                    {user ? (
+                        <button
+                            onClick={handleLogout}
+                            className="block text-center w-full bg-white/10 hover:bg-white/20 text-white py-3 rounded-xl font-bold transition-all border border-white/10"
+                        >
+                            Log Out ({user.name})
+                        </button>
+                    ) : (
+                        <Link to="/login" className="block text-center w-full bg-brand-primary hover:bg-brand-secondary text-white py-3 rounded-xl font-bold transition-all">
+                            Sign In
+                        </Link>
+                    )}
                 </div>
             )}
         </nav>
+
     );
 };
 
