@@ -4,30 +4,37 @@ import { useNavigate, Link } from 'react-router-dom';
 import Waves from '../components/ReactBits/Waves';
 import DecryptedText from '../components/ReactBits/DecryptedText';
 import SpotlightCard from '../components/ReactBits/SpotlightCard';
+import axios from 'axios';
 
 const LoginPage = () => {
     const [userId, setUserId] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState('');
     const navigate = useNavigate();
 
-    const handleLogin = (e) => {
+    const handleLogin = async (e) => {
         e.preventDefault();
         setIsLoading(true);
+        setError('');
 
-        // Simulating login for demo purposes
-        setTimeout(() => {
-            const userData = {
-                id: userId,
-                name: userId || 'Guest User', // Using ID as name for demo
-                avatar: null
-            };
-            localStorage.setItem('user', JSON.stringify(userData));
+        try {
+            const response = await axios.post('/api/login', {
+                userId: userId,
+                password: password
+            });
 
+            if (response.data.user) {
+                localStorage.setItem('user', JSON.stringify(response.data.user));
+                navigate('/home');
+            }
+        } catch (err) {
+            console.error('Login error:', err);
+            setError(err.response?.data?.message || 'Terjadi kesalahan saat login. Silakan coba lagi.');
+        } finally {
             setIsLoading(false);
-            navigate('/home');
-        }, 1500);
+        }
     };
 
 
@@ -63,6 +70,12 @@ const LoginPage = () => {
                             Masuk untuk melihat rekomendasi film Anda
                         </p>
                     </div>
+
+                    {error && (
+                        <div className="mb-6 p-4 bg-red-500/10 border border-red-500/20 rounded-2xl text-red-500 text-xs font-medium animate-in fade-in slide-in-from-top-2 duration-300">
+                            {error}
+                        </div>
+                    )}
 
                     <form onSubmit={handleLogin} className="space-y-6">
                         {/* User ID Field */}
