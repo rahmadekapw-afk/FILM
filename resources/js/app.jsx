@@ -4,7 +4,9 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 import LandingPage from './pages/LandingPage';
 import AdminPage from './pages/AdminPage';
 import LoginPage from './pages/LoginPage';
+import RegisterPage from './pages/RegisterPage';
 import UserHome from './pages/UserHome';
+import CustomCursor from './components/CustomCursor';
 import '../css/app.css';
 
 if (document.getElementById('root')) {
@@ -12,11 +14,13 @@ if (document.getElementById('root')) {
     root.render(
         <React.StrictMode>
             <BrowserRouter>
+                <CustomCursor />
                 <Routes>
                     <Route path="/" element={<LandingPage />} />
                     <Route path="/home" element={<UserHome />} />
                     <Route path="/admin" element={<AdminPage />} />
                     <Route path="/login" element={<LoginPage />} />
+                    <Route path="/register" element={<RegisterPage />} />
                 </Routes>
             </BrowserRouter>
         </React.StrictMode>

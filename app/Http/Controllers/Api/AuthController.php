@@ -42,6 +42,29 @@ class AuthController extends Controller
         ]);
     }
 
+    public function register(Request $request)
+    {
+        $request->validate([
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => 'required|string|min:4',
+        ]);
+
+        $user = User::create([
+            'name' => explode('@', $request->email)[0], // Use email prefix as name
+            'email' => $request->email,
+            'password' => sha1($request->password),
+        ]);
+
+        return response()->json([
+            'message' => 'Registration successful',
+            'user' => [
+                'id' => $user->id,
+                'name' => $user->name,
+                'email' => $user->email,
+            ]
+        ], 201);
+    }
+
     public function logout()
     {
         Auth::logout();

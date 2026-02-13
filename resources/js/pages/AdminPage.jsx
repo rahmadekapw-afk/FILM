@@ -2,9 +2,7 @@ import React, { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { Camera, Film, PlusCircle, AlertCircle, CheckCircle2, ArrowLeft, Trash2, Edit3, Save, X, Loader2, FileSpreadsheet, Upload } from 'lucide-react';
 import { Link } from 'react-router-dom';
-import DecryptedText from '../components/ReactBits/DecryptedText';
 import SpotlightCard from '../components/ReactBits/SpotlightCard';
-import Waves from '../components/ReactBits/Waves';
 
 const AdminPage = () => {
     const [movies, setMovies] = useState([]);
@@ -146,12 +144,7 @@ const AdminPage = () => {
 
     return (
         <div className="min-h-screen bg-bg-dark text-white selection:bg-brand-primary/30 overflow-x-hidden pb-32">
-            {/* Animated Background */}
-            <Waves
-                lineColor="rgba(229, 9, 20, 0.2)"
-                waveSpeed={0.8}
-                waveOpacity={0.4}
-            />
+
 
             <div className="relative z-10 max-w-5xl mx-auto px-6 py-12">
                 <Link
@@ -168,13 +161,9 @@ const AdminPage = () => {
                             <Film className="w-8 h-8 text-brand-primary" />
                         </div>
                         <div>
-                            <DecryptedText
-                                text={editingId ? "Edit Movie" : "Add New Movie"}
-                                animateOn="load"
-                                revealDirection="start"
-                                className="text-4xl font-bold tracking-tight block"
-                                speed={40}
-                            />
+                            <h1 className="text-4xl font-bold tracking-tight block">
+                                {editingId ? "Edit Movie" : "Add New Movie"}
+                            </h1>
                             <p className="text-neutral-400 mt-1">
                                 {editingId ? `Updating: ${title}` : "Populate your movie library with new titles"}
                             </p>
@@ -210,7 +199,7 @@ const AdminPage = () => {
                 </div>
 
                 {importMessage.text && (
-                    <div className={`mt-6 flex items-center gap-4 p-5 rounded-[2rem] border animate-in slide-in-from-top-4 duration-500 ${importMessage.type === 'success'
+                    <div className={`mt-6 flex items-center gap-4 p-5 rounded-[2rem] border ${importMessage.type === 'success'
                         ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400'
                         : 'bg-red-500/10 border-red-500/30 text-red-400'
                         }`}>
@@ -262,7 +251,7 @@ const AdminPage = () => {
                                 </div>
 
                                 {message.text && (
-                                    <div className={`flex items-center gap-4 p-6 rounded-2xl border animate-in zoom-in-95 duration-300 ${message.type === 'success'
+                                    <div className={`flex items-center gap-4 p-6 rounded-2xl border ${message.type === 'success'
                                         ? 'bg-emerald-500/10 border-emerald-500/30 text-emerald-400 font-bold'
                                         : 'bg-red-500/10 border-red-500/30 text-red-400 font-bold'
                                         }`}>
@@ -276,7 +265,7 @@ const AdminPage = () => {
                                     disabled={isLoading}
                                     className="w-full bg-brand-primary hover:bg-brand-secondary disabled:bg-brand-primary/40 disabled:cursor-not-allowed text-white font-black py-6 rounded-2xl transition-all flex items-center justify-center gap-4 group shadow-2xl shadow-brand-primary/20 active:scale-[0.98] relative overflow-hidden text-lg"
                                 >
-                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-shimmer" />
+                                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full" />
                                     {isLoading ? (
                                         <Loader2 className="w-6 h-6 animate-spin text-white" />
                                     ) : (
@@ -404,7 +393,7 @@ const AdminPage = () => {
 
                 <div className="mt-24 text-center">
                     <div className="inline-flex items-center gap-3 px-6 py-3 rounded-full bg-neutral-900 border border-neutral-800 text-neutral-500 text-[10px] font-black uppercase tracking-[0.2em] shadow-2xl">
-                        <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
+                        <div className="w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                         Administrator Level Access • v2.0 CRUD
                     </div>
                 </div>

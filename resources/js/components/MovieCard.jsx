@@ -5,8 +5,8 @@ import { motion } from 'framer-motion';
 const MovieCard = ({ title, rating, year, image, genres = [] }) => {
     return (
         <motion.div
-            whileHover={{ scale: 1.05 }}
-            className="group relative bg-bg-card rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-xl transition-all"
+            whileHover={{ scale: 1.05, y: -5 }}
+            className="group relative bg-bg-card rounded-2xl overflow-hidden cursor-pointer shadow-md hover:shadow-[0_20px_40px_-15px_rgba(0,0,0,0.5)] transition-all border border-transparent hover:border-brand-primary/30 reveal-card"
         >
             {/* Image Container */}
             <div className="aspect-[2/3] relative overflow-hidden">

@@ -39,12 +39,13 @@ const LandingPage = () => {
             // GSAP Animations for sections
             const sections = gsap.utils.toArray('.reveal-section');
             sections.forEach((section) => {
+                // Section entrance
                 gsap.fromTo(section,
-                    { opacity: 0, y: 50 },
+                    { opacity: 0, y: 30 },
                     {
                         opacity: 1,
                         y: 0,
-                        duration: 1,
+                        duration: 0.8,
                         scrollTrigger: {
                             trigger: section,
                             start: "top 85%",
@@ -52,6 +53,26 @@ const LandingPage = () => {
                         }
                     }
                 );
+
+                // Stagger cards within section
+                const cards = section.querySelectorAll('.reveal-card');
+                if (cards.length > 0) {
+                    gsap.fromTo(cards,
+                        { opacity: 0, y: 30, scale: 0.9 },
+                        {
+                            opacity: 1,
+                            y: 0,
+                            scale: 1,
+                            duration: 0.6,
+                            stagger: 0.05,
+                            ease: "back.out(1.7)",
+                            scrollTrigger: {
+                                trigger: section,
+                                start: "top 80%",
+                            }
+                        }
+                    );
+                }
             });
             ScrollTrigger.refresh();
         }
