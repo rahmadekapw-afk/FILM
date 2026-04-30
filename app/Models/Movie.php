@@ -15,8 +15,11 @@ class Movie extends Model
 
     protected $fillable = [
         'title',
+        'genres',
+        'description',
+        'duration',
         'poster_filename',
-        'genres'
+        'video_filename',
     ];
 
     public function ratings()
